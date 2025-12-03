@@ -1,0 +1,30 @@
+FROM apache/airflow:3.0.1
+
+USER root
+
+RUN apt-get update --allow-releaseinfo-change \
+    && apt-get install -y --no-install-recommends \
+    gcc \
+    python3-dev \
+    build-essential \
+    curl \
+    wget \
+    vim \
+    git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+USER airflow
+
+COPY --chown=airflow:root requirements.txt /tmp/requirements.txt
+
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+ENV PROJECT_ROOT="/opt/airflow/"
+ENV PYTHONPATH="/opt/airflow/dags:/opt/airflow/plugins:${PYTHONPATH:-}"
+
+USER airflow
+
+EXPOSE 8080
+
+ENTRYPOINT ["/entrypoint"]

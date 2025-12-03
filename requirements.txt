@@ -1,0 +1,26 @@
+pendulum==3.1.0
+
+# Database connectors
+sqlalchemy>=1.4.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+scikit-learn>=1.7.0
+
+# Visualization
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# API and requests
+requests>=2.31.0
+boto3>=1.28.0
+
+# Airflow providers - versiones compatibles con Airflow 3.0.1
+apache-airflow-providers-http>=4.13.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+
+openpyxl>=3.1.0

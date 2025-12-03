@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Airflow
+airflow-webserver.pid
+airflow.cfg
+unittests.cfg
+
+# Docker
+docker-compose.override.yml
+
+# Project Data (Do not commit real data)
+#dags/data/raw/*.csv
+
+# Logs
+logs/
+dags/logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Specific scripts
+dags/src/data_exploration.py
