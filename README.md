@@ -1,17 +1,12 @@
 # Sports Store Sales Analysis Pipeline
 
 ## Project Overview
-This project implements a robust **ELT (Extract, Load, Transform)** pipeline to analyze sales data from a sports retailer. Orchestrated by **Apache Airflow** and containerized with **Docker**, the pipeline ingests raw Excel data into a **PostgreSQL** data warehouse, ensuring data integrity and readiness for downstream analytics.
+This project implements a robust **ELT (Extract, Load, Transform)** pipeline to analyze sales data from a sports retailer. Orchestrated by **Apache Airflow** and containerized with **Docker**, the pipeline ingests raw Excel data into a **PostgreSQL** data warehouse, transforms it for analysis, and visualizes the results using **Power BI**. However, as analysis is not the main focus of this project, the Power BI dashboard is simple and serves to demonstrate the end-to-end functionality of the pipeline.
 
 ## Dataset Selection
-The dataset used is the **Sport Products Sales Analysis Challenge**.
+The dataset used is the **Sport Products Sales Analysis Challenge** from FP20 Analytics Challenges Group, a LinkedIn community focused on data analytics projects. You can find more about them [here](https://fp20analytics.com/).
 
-### Why is this dataset ideal?
-This dataset is ideal because it offers a rich set of dimensions, including Time (Invoice Date), Geography (Region, State, City), Product Hierarchy (Product), and Business Entities (Retailer, Sales Method), making it perfect for in-depth analysis. 
-
-It also contains essential metrics for retail analysis, such as Units Sold, Total Sales, Operating Profit, and Operating Margin, providing valuable insights into business performance. 
-
-Additionally, the dataset presents real-world data quality challenges, like handling typos and standardizing column names, making it great for practicing transformation logic. The transactional nature of the data allows for aggregation at multiple levels, from individual invoices to regional performance summaries.
+After surfing through all the datasets they have shared, I selected this one because it offers a rich set of dimensions, including Time (Invoice Date), Geography (Region, State, City), Product Hierarchy (Product), and Business Entities (Retailer, Sales Method), making it perfect for analysis. Additionally, the dataset presents real-world data quality challenges, like handling typos and standardizing column names, making it great for practicing transformation logic.
 
 ## Architecture: Why ELT?
 An **ELT (Extract, Load, Transform)** approach was chosen over traditional ETL for this project.
@@ -21,6 +16,31 @@ An **ELT (Extract, Load, Transform)** approach was chosen over traditional ETL f
 2.  **Scalability**: Separating the "Load" and "Transform" phases allows us to scale them independently. The loading process focuses solely on I/O efficiency, while the transformation process focuses on compute and logic.
 3.  **Agility**: New questions often require new transformations. With the data already sitting in the warehouse (Postgres), data analysts and engineers can prototype and deploy new transformation logic much faster.
 4.  **Schema Evolution**: The `raw` layer can accept data with minimal validation, preventing pipeline failures due to minor schema drifts in the source system. Strict schema enforcement is applied during the transformation step to the `processed` layer.
+
+## Airflow DAG
+
+![](screenshots/airflow_dag.png)
+
+## Dashboard
+Here, you can see the dashboard, it was created using Power BI.
+
+![](screenshots/power_bi_dashboard.png)
+
+This dashboard shows the sales data of a sports retailer. There are 4 metrics displayed and 3 charts.
+
+The metrics are:
+
+- **Orders**: The total number of orders.
+- **Revenue**: The total revenue.
+- **AVG Units Sold**: The average number of units sold.
+- **Best Sales Method**: The sales method with the highest total orders.
+
+The charts are: 
+
+- **Revenue by Month and Year**: Shows how the revenue has changed over time.
+- **Sales by Region**: Shows the breakdown of sales by region.
+- **Top 5 products by Sales**: Shows the 5 products with the highest sales.
+
 
 ## Project Structure
 ```bash
@@ -37,6 +57,7 @@ An **ELT (Extract, Load, Transform)** approach was chosen over traditional ETL f
 ├── docker-compose.yaml       # Orchestration of Airflow and Postgres services
 └── requirements.txt          # Python dependencies
 ```
+
 
 ## How to Reproduce
 
@@ -69,7 +90,7 @@ An **ELT (Extract, Load, Transform)** approach was chosen over traditional ETL f
 5.  **Trigger the Pipeline**
     *   Locate the DAG named `sports_store_pipeline`.
     *   Toggle the switch to **Unpause** the DAG.
-    *   It should run automatically (or you can click the "Trigger DAG" button).
+    *   Click the "Trigger DAG" button.
 
 6.  **Verify the Data**
     You can connect to the PostgreSQL database to verify the results:
@@ -81,49 +102,16 @@ An **ELT (Extract, Load, Transform)** approach was chosen over traditional ETL f
 
     Check the tables:
     *   `raw.sales_raw`: The raw data as loaded from Excel.
-    *   `processed.sales_processed`: The cleaned data with correct data types (e.g., `invoice_date` as Date).
+    *   `processed.sales_processed`: The cleaned data.
+
 
 ## Technologies Used
 *   **Apache Airflow**: Workflow orchestration and scheduling.
 *   **Docker**: Containerization for consistent environments.
 *   **PostgreSQL**: Relational database for data warehousing.
 *   **Python (Pandas & SQLAlchemy)**: Data manipulation and database interaction.
+*   **Power BI**: Data visualization and dashboard creation. 
 
 
-## Airflow DAG
-
-![](screenshots/airflow_dag.png)
-
-## Data Before Transformation
-
-![](screenshots/data_before_transformation.png)
-
-The data before transformation is shown above. 
-
-## Data After Transformation
-
-![](screenshots/data_after_transformation.png)
-The data after transformation is shown above. 
-
-
-## Dashboard Results
-Here, you can see the dashboard, it was created using Power BI.
-
-![](screenshots/power_bi_dashboard.png)
-
-This dashboard shows the sales data of a sports retailer. There are 4 metrics displayed and 3 charts.
-
-The metrics are:
-
-- **Orders**: The total number of orders.
-- **Revenue**: The total revenue.
-- **AVG Units Sold**: The average number of units sold.
-- **Best Sales Method**: The sales method with the highest total orders.
-
-The charts are: 
-
-- **Revenue by Month and Year**: Shows how the revenue has changed over time.
-- **Sales by Region**: Shows the breakdown of sales by region.
-- **Top 5 products by Sales**: Shows the 5 products with the highest sales.
 
 
